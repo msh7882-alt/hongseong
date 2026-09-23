@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>보령-홍성 여행 일정 보고서</title>
+  <style>
+    :root {
+      --color-bg: #F2F2F2;
+      --color-light-accent: #A0C3D9;
+      --color-accent: #80A2BF;
+      --color-sub: #58748C;
+      --color-main: #2A3159;
+      --color-card-bg: #ffffff;
+      --color-text-dark: #1f2438;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    body {
+      background-color: var(--color-bg);
+      color: var(--color-text-dark);
+      line-height: 1.6;
+      padding: 16px;
+      font-size: 18px;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    header {
+      background-color: var(--color-main);
+      color: #ffffff;
+      padding: 24px 16px;
+      border-radius: 18px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 12px rgba(42, 49, 89, 0.15);
+      text-align: center;
+    }
+
+    header h1 {
+      font-size: 1.5rem;
+      margin-bottom: 6px;
+      word-break: keep-all;
+    }
+
+    header p {
+      font-size: 1rem;
+      color: var(--color-light-accent);
+      font-weight: 500;
+    }
+
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-bottom: 24px;
+    }
+
+    .summary-card {
+      background: var(--color-card-bg);
+      padding: 12px 8px;
+      border-radius: 12px;
+      border: 1px solid #e0e0e0;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+      text-align: center;
+    }
+
+    .summary-card h3 {
+      font-size: 0.8rem;
+      color: var(--color-sub);
+      margin-bottom: 4px;
+      white-space: nowrap;
+    }
+
+    .summary-card p {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--color-main);
+      word-break: keep-all;
+      line-height: 1.25;
+    }
+
+    .section-title {
+      font-size: 1.35rem;
+      color: var(--color-main);
+      margin-bottom: 16px;
+      padding-bottom: 6px;
+      border-bottom: 3px solid var(--color-accent);
+      font-weight: 800;
+    }
+
+    .timeline {
+      position: relative;
+      padding-left: 12px;
+      margin-bottom: 24px;
+    }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 4px;
+      top: 10px;
+      bottom: 10px;
+      width: 4px;
+      background-color: var(--color-accent);
+      border-radius: 2px;
+    }
+
+    .timeline-item {
+      position: relative;
+      margin-bottom: 24px;
+      padding-left: 16px;
+    }
+
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      left: -14px;
+      top: 22px;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background-color: var(--color-main);
+      border: 3px solid var(--color-light-accent);
+    }
+
+    .timeline-card {
+      background: var(--color-card-bg);
+      padding: 18px;
+      border-radius: 16px;
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    }
+
+    .time-badge {
+      display: inline-block;
+      background-color: var(--color-light-accent);
+      color: var(--color-main);
+      font-weight: 800;
+      font-size: 0.95rem;
+      padding: 6px 12px;
+      border-radius: 20px;
+      margin-bottom: 10px;
+    }
+
+    .place-title {
+      font-size: 1.3rem;
+      font-weight: 800;
+      color: var(--color-main);
+      margin-bottom: 6px;
+      word-break: keep-all;
+    }
+
+    .place-info {
+      font-size: 0.95rem;
+      color: var(--color-sub);
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+
+    .place-img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 12px;
+      margin-bottom: 12px;
+    }
+
+    /* 카페 전용 2열 이미지 그리드 */
+    .dual-img-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .dual-img-box {
+      text-align: center;
+    }
+
+    .dual-img-box img {
+      width: 100%;
+      height: 130px;
+      object-fit: cover;
+      border-radius: 10px;
+    }
+
+    .dual-img-label {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--color-sub);
+      margin-top: 4px;
+    }
+
+    .place-desc {
+      font-size: 1.05rem;
+      color: var(--color-text-dark);
+      margin-bottom: 14px;
+      word-break: keep-all;
+    }
+
+    .sub-section-title {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--color-main);
+      margin-top: 10px;
+      margin-bottom: 4px;
+    }
+
+    .map-btn-group {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .map-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 0;
+      font-size: 0.9rem;
+      font-weight: 700;
+      border-radius: 10px;
+      text-decoration: none;
+      color: #ffffff;
+    }
+
+    .btn-naver {
+      background-color: #03CF5D;
+    }
+
+    .btn-kakao {
+      background-color: #FEE500;
+      color: #191919;
+    }
+
+    /* 전체 동선 요약 카드 */
+    .route-card {
+      background: var(--color-card-bg);
+      padding: 18px;
+      border-radius: 16px;
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+      margin-bottom: 30px;
+    }
+
+    .route-list {
+      list-style: none;
+      margin-bottom: 16px;
+    }
+
+    .route-list li {
+      font-size: 0.95rem;
+      font-weight: 600;
+      padding: 6px 0;
+      border-bottom: 1px dashed #e2e8f0;
+      color: var(--color-text-dark);
+    }
+
+    .route-list li:last-child {
+      border-bottom: none;
+    }
+
+    .map-img-container {
+      width: 100%;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid #e2e8f0;
+    }
+
+    .map-img-container img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <!-- Header -->
+  <header>
+    <h1>보령-홍성 여행 일정 보고서</h1>
+    <p>추석 연휴 당일 일정 및 동선 안내</p>
+  </header>
+
+  <!-- Summary Grid -->
+  <div class="summary-grid">
+    <div class="summary-card">
+      <h3>여행인원</h3>
+      <p>총 7명</p>
+    </div>
+    <div class="summary-card">
+      <h3>점심집결지</h3>
+      <p>일월 굴칼국수</p>
+    </div>
+    <div class="summary-card">
+      <h3>최종숙소</h3>
+      <p>세울터 (홍성)</p>
+    </div>
+  </div>
+
+  <!-- Timeline -->
+  <h2 class="section-title">여행 일시별 동선</h2>
+  <div class="timeline">
+
+    <!-- 1. 점심 식사 (12:00 집결) -->
+    <div class="timeline-item">
+      <div class="timeline-card">
+        <span class="time-badge">12:00 - 13:00 | 점심 식사 (집결)</span>
+        <div class="place-title">1. 일월 굴칼국수</div>
+        <p class="place-info">⏱ 영업시간: 10:00 - 20:00 (연휴 정상 영업)</p>
+        <img src="noodle.png" alt="일월 굴칼국수" class="place-img">
+        <p class="place-desc">보령의 대표 명물인 시원하고 깔끔한 굴칼국수와 바삭 고소한 굴전을 즐길 수 있는 식당입니다.</p>
+        
+        <div class="map-btn-group">
+          <a href="https://map.naver.com/v5/search/%EB%B3%B4%EB%A0%B9%20%EC%9D%BC%EC%9B%94%EA%B5%B4%EC%B9%BC%EA%B5%AD%EC%88%98" target="_blank" class="map-btn btn-naver">네이버지도</a>
+          <a href="https://map.kakao.com/?q=%EB%B3%B4%EB%A0%B9%20%EC%9D%BC%EC%9B%94%EA%B5%B4%EC%B9%BC%EA%B5%AD%EC%88%98" target="_blank" class="map-btn btn-kakao">카카오맵</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. 상화원 -->
+    <div class="timeline-item">
+      <div class="timeline-card">
+        <span class="time-badge">13:20 - 15:30 | 필수 관광지</span>
+        <div class="place-title">2. 죽도 상화원 (尙和園)</div>
+        <p class="place-info">⏱ 관람시간: 09:00 - 18:00 (입장 마감 17:00)</p>
+        <img src="island.png" alt="죽도 상화원" class="place-img">
+        <p class="place-desc">섬 전체가 아름다운 한국식 전통 정원으로 꾸며진 명소로, 해안 회랑을 걸으며 멋진 서해 전망을 즐길 수 있습니다.</p>
+        
+        <div class="map-btn-group">
+          <a href="https://map.naver.com/v5/search/%EB%B3%B4%EB%A0%B9%20%EC%83%81%ED%99%94%EC%9B%90" target="_blank" class="map-btn btn-naver">네이버지도</a>
+          <a href="https://map.kakao.com/?q=%EB%B3%B4%EB%A0%B9%20%EC%83%81%ED%99%94%EC%9B%90" target="_blank" class="map-btn btn-kakao">카카오맵</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. 카페 (커피인터뷰 / 바다듬 각자 버튼 지정) -->
+    <div class="timeline-item">
+      <div class="timeline-card">
+        <span class="time-badge">15:45 - 17:00 | 오션뷰 카페 (선택)</span>
+        <div class="place-title">3. 커피인터뷰 / 바다듬</div>
+        <p class="place-info">⏱ 영업시간: 10:00 - 20:00 / 21:00</p>
+        
+        <div class="dual-img-container">
+          <div class="dual-img-box">
+            <img src="coffee-interview.png" alt="커피인터뷰">
+            <div class="dual-img-label">커피인터뷰 (대천)</div>
+          </div>
+          <div class="dual-img-box">
+            <img src="badaduem.png" alt="바다듬 카페">
+            <div class="dual-img-label">바다듬 카페</div>
+          </div>
+        </div>
+
+        <p class="place-desc">탁 트인 대천 바다뷰를 보며 휴식을 취할 수 있는 카페입니다. 당일 분위기나 여유 시간에 맞추어 방문합니다.</p>
+
+        <!-- 커피인터뷰 지도 링크 -->
+        <div class="sub-section-title">☕ 커피인터뷰 길찾기</div>
+        <div class="map-btn-group">
+          <a href="https://map.naver.com/v5/search/%EB%B3%B4%EB%A0%B9%20%EC%BB%A4%ED%94%BC%EC%9D%B8%ED%84%B0%EB%B7%B0" target="_blank" class="map-btn btn-naver">네이버지도</a>
+          <a href="https://map.kakao.com/?q=%EB%B3%B4%EB%A0%B9%20%EC%BB%A4%ED%94%BC%EC%9D%B8%ED%84%B0%EB%B7%B0" target="_blank" class="map-btn btn-kakao">카카오맵</a>
+        </div>
+
+        <!-- 바다듬 카페 지도 링크 -->
+        <div class="sub-section-title" style="margin-top:14px;">🌊 바다듬 카페 길찾기</div>
+        <div class="map-btn-group">
+          <a href="https://map.naver.com/v5/search/%EB%B3%B4%EB%A0%B9%20%EB%B0%94%EB%8B%A4%EB%93%AC" target="_blank" class="map-btn btn-naver">네이버지도</a>
+          <a href="https://map.kakao.com/?q=%EB%B3%B4%EB%A0%B9%20%EB%B0%94%EB%8B%A4%EB%93%AC" target="_blank" class="map-btn btn-kakao">카카오맵</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4. 이마트 -->
+    <div class="timeline-item">
+      <div class="timeline-card">
+        <span class="time-badge">17:15 - 18:10 | 바비큐 장보기</span>
+        <div class="place-title">4. 이마트 보령점</div>
+        <p class="place-info">⏱ 영업시간: 10:00 - 22:00 (정상 영업)</p>
+        <img src="e-mart.png" alt="이마트 보령점" class="place-img">
+        <p class="place-desc">숙소 이동 길목에 위치한 대형 마트로, 저녁 바비큐용 고기, 채소, 음료 등을 함께 구경하며 구매합니다.</p>
+        
+        <div class="map-btn-group">
+          <a href="https://map.naver.com/v5/search/%EC%9D%B4%EB%A7%88%ED%8A%B8%20%EB%B3%B4%EB%A0%B9%EC%A0%90" target="_blank" class="map-btn btn-naver">네이버지도</a>
+          <a href="https://map.kakao.com/?q=%EC%9D%B4%EB%A7%88%ED%8A%B8%20%EB%B3%B4%EB%A0%B9%EC%A0%90" target="_blank" class="map-btn btn-kakao">카카오맵</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5. 세울터 -->
+    <div class="timeline-item">
+      <div class="timeline-card">
+        <span class="time-badge">18:40 - | 숙소 체크인 & 바비큐</span>
+        <div class="place-title">5. 세울터 (홍성)</div>
+        <p class="place-info">📍 충청남도 홍성군 서부면 판교리 645-43</p>
+        <img src="sewool.png" alt="세울터" class="place-img">
+        <p class="place-desc">자연 속 숙소 입실 후 야외 캠핑 감성으로 저녁 바비큐 파티를 즐기며 일정을 마무리합니다.</p>
+        
+        <div class="map-btn-group">
+          <a href="https://map.naver.com/v5/search/%EC%B6%A9%EC%B2%AD%EB%82%A8%EB%8F%84%20%ED%99%8D%EC%84%B1%EA%B5%B0%20%EC%84%9C%EB%B6%80%EB%A9%B4%20%ED%8C%90%EA%B5%90%EB%A6%AC%20645-43" target="_blank" class="map-btn btn-naver">네이버지도</a>
+          <a href="https://map.kakao.com/?q=%EC%B6%A9%EC%B2%AD%EB%82%A8%EB%8F%84%20%ED%99%8D%EC%84%B1%EA%B5%B0%20%EC%84%9C%EB%B6%80%EB%A9%B4%20%ED%8C%90%EA%B5%90%EB%A6%AC%20645-43" target="_blank" class="map-btn btn-kakao">카카오맵</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- 6. 전체 이동 동선 한눈에 보기 -->
+  <h2 class="section-title">전체 이동 동선 한눈에 보기</h2>
+  <div class="route-card">
+    <ul class="route-list">
+      <li>1️⃣ 일월 굴칼국수 (점심/집결)</li>
+      <li>2️⃣ 죽도 상화원 (관람)</li>
+      <li>3️⃣ 커피인터뷰 대천 (카페 휴식)</li>
+      <li>4️⃣ 이마트 보령점 (장보기)</li>
+      <li>5️⃣ 세울터 홍성 (숙소/바비큐)</li>
+    </ul>
+
+    <!-- 캡처한 전체 지도 이미지 표시 -->
+    <div class="map-img-container">
+      <img src="maps.png" alt="전체 이동 동선 지도">
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>
